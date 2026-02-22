@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Runs after git pull (merge). Syncs installed files from repo.
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+exec "$REPO_ROOT/scripts/update-installed.sh"

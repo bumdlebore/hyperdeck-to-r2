@@ -73,6 +73,16 @@ launchctl load -w ~/Library/LaunchAgents/com.hopecc.hyperdeck-to-r2.plist
 
 ------------------------------------------------------------------------
 
+### 6) Install git hook (optional, keeps installed files in sync on git pull)
+
+```bash
+./scripts/install-hooks.sh
+```
+
+After this, every `git pull` will copy the script, env template, and plist to their install locations and reload the launchd agent. Your `hyperdeck-to-r2.env` is never overwritten; new variables from `example.env` are written to `hyperdeck-to-r2.env.example` for you to merge if needed.
+
+------------------------------------------------------------------------
+
 ## Test Manually
 
 Run once to confirm everything works:
@@ -97,6 +107,16 @@ tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
 -   Uses `--ignore-existing` to prevent re-uploads
 -   Never deletes anything from R2
 -   Runs every 10 minutes via launchd
+
+------------------------------------------------------------------------
+
+## Updating After Pull
+
+If you installed the git hook (step 6), updates run automatically on `git pull`. To sync manually:
+
+```bash
+./scripts/update-installed.sh
+```
 
 ------------------------------------------------------------------------
 
