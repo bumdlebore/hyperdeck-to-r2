@@ -1,9 +1,9 @@
-# Config
-.env
-config/.env
+# local env/config
+config/*.env
+!/config/example.env
+
+# logs
+*.log
 
 # macOS
 .DS_Store
-
-# Logs
-*.log
