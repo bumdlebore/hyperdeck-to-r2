@@ -105,7 +105,7 @@ tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
 In `hyperdeck_to_r2.sh`, modify:
 
 ```bash
-INCLUDE_ARGS=( --include "*.mov" --include "*.mp4" --exclude "*" )
+FILTER_ARGS=( --filter "- *" --filter "+ *.mov" --filter "+ *.mp4" )
 ```
 
 Add extensions if needed (e.g. `.mxf`).

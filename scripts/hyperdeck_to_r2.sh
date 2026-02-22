@@ -18,7 +18,8 @@ mkdir -p "$(dirname "$LOG")"
 # rclone FTP backend needs an obscured pass value even if HyperDeck ignores it
 FTP_PASS_OBS="$("$RCLONE_BIN" obscure "${FTP_DUMMY_PASS:-dummy}")"
 
-INCLUDE_ARGS=( --include "*.mov" --include "*.mp4" --exclude "*" )
+# Order matters: last matching rule wins. Exclude all, then include mov/mp4.
+FILTER_ARGS=( --filter "- *" --filter "+ *.mov" --filter "+ *.mp4" )
 
 COMMON_ARGS=(
   --ignore-existing
@@ -41,7 +42,7 @@ copy_card () {
     --ftp-host "$HYPERDECK_HOST" \
     --ftp-user "$HYPERDECK_USER" \
     --ftp-pass "$FTP_PASS_OBS" \
-    "${INCLUDE_ARGS[@]}" \
+    "${FILTER_ARGS[@]}" \
     "${COMMON_ARGS[@]}"
 }
 
