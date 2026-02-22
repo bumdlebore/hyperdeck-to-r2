@@ -26,22 +26,28 @@ This runs safely in upload-only mode and never deletes anything from R2.
 
 ### 1) Install rclone
 
+```bash
 brew install rclone
+```
 
 ------------------------------------------------------------------------
 
 ### 2) Copy the script into place
 
+```bash
 sudo cp scripts/hyperdeck_to_r2.sh /usr/local/bin/hyperdeck_to_r2.sh
 sudo chmod +x /usr/local/bin/hyperdeck_to_r2.sh
+```
 
 ------------------------------------------------------------------------
 
 ### 3) Create environment config
 
-sudo mkdir -p /usr/local/etc sudo cp config/example.env
-/usr/local/etc/hyperdeck-to-r2.env sudo nano
-/usr/local/etc/hyperdeck-to-r2.env
+```bash
+sudo mkdir -p /usr/local/etc
+sudo cp config/example.env /usr/local/etc/hyperdeck-to-r2.env
+sudo nano /usr/local/etc/hyperdeck-to-r2.env
+```
 
 Edit values as needed (HyperDeck IP, destination path, etc).
 
@@ -49,19 +55,21 @@ Edit values as needed (HyperDeck IP, destination path, etc).
 
 ### 4) Create log directory
 
+```bash
 sudo mkdir -p /var/log/hyperdeck-to-r2
 sudo chown $(whoami) /var/log/hyperdeck-to-r2
+```
 
 ------------------------------------------------------------------------
 
 ### 5) Install launchd agent
 
-cp launchd/com.hopecc.hyperdeck-to-r2.plist \~/Library/LaunchAgents/
+```bash
+cp launchd/com.hopecc.hyperdeck-to-r2.plist ~/Library/LaunchAgents/
 
-launchctl unload -w
-\~/Library/LaunchAgents/com.hopecc.hyperdeck-to-r2.plist 2\>/dev/null
-\|\| true launchctl load -w
-\~/Library/LaunchAgents/com.hopecc.hyperdeck-to-r2.plist
+launchctl unload -w ~/Library/LaunchAgents/com.hopecc.hyperdeck-to-r2.plist 2>/dev/null || true
+launchctl load -w ~/Library/LaunchAgents/com.hopecc.hyperdeck-to-r2.plist
+```
 
 ------------------------------------------------------------------------
 
@@ -69,11 +77,15 @@ launchctl unload -w
 
 Run once to confirm everything works:
 
+```bash
 /usr/local/bin/hyperdeck_to_r2.sh
+```
 
 View logs:
 
+```bash
 tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
+```
 
 ------------------------------------------------------------------------
 
@@ -92,7 +104,9 @@ tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
 
 In `hyperdeck_to_r2.sh`, modify:
 
-INCLUDE_ARGS=( --include "*.mov" --include "*.mp4" --exclude "\*" )
+```bash
+INCLUDE_ARGS=( --include "*.mov" --include "*.mp4" --exclude "*" )
+```
 
 Add extensions if needed (e.g. `.mxf`).
 
