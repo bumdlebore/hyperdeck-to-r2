@@ -127,7 +127,7 @@ If you installed the git hook (step 6), updates run automatically on `git pull`.
 In `hyperdeck_to_r2.sh`, modify:
 
 ```bash
-FILTER_ARGS=( --filter "+ *.mov" --filter "+ *.mp4" --filter "- *" )
+FILTER_ARGS=( --filter "- ._*" --filter "+ *.mov" --filter "+ *.mp4" --filter "- *" )
 ```
 
 Add extensions if needed (e.g. `.mxf`).

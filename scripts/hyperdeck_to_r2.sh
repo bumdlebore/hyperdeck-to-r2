@@ -21,8 +21,8 @@ mkdir -p "$(dirname "$LOG")"
 # rclone FTP backend needs an obscured pass value even if HyperDeck ignores it
 FTP_PASS_OBS="$("$RCLONE_BIN" obscure "${FTP_DUMMY_PASS:-dummy}")"
 
-# Order matters: first matching rule wins. Include mov/mp4 first, then exclude rest.
-FILTER_ARGS=( --filter "+ *.mov" --filter "+ *.mp4" --filter "- *" )
+# Order matters: first matching rule wins. Exclude resource forks, include mov/mp4, then exclude rest.
+FILTER_ARGS=( --filter "- ._*" --filter "+ *.mov" --filter "+ *.mp4" --filter "- *" )
 
 # Only transfer files recorded today (Sunday) - modified since midnight.
 # Set DISABLE_MAX_AGE=1 if HyperDeck FTP doesn't report modification times (common);
