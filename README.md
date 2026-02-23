@@ -108,6 +108,7 @@ tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
 -   Uses `--ignore-existing` to prevent re-uploads
 -   Never deletes anything from R2
 -   Runs every 5 minutes on Sundays between 10am and 2pm via launchd
+-   If files aren't transferring, add `DISABLE_MAX_AGE="1"` to your env—HyperDeck FTP often doesn't report modification times
 
 ------------------------------------------------------------------------
 
@@ -126,7 +127,7 @@ If you installed the git hook (step 6), updates run automatically on `git pull`.
 In `hyperdeck_to_r2.sh`, modify:
 
 ```bash
-FILTER_ARGS=( --filter "- *" --filter "+ *.mov" --filter "+ *.mp4" )
+FILTER_ARGS=( --filter "+ *.mov" --filter "+ *.mp4" --filter "- *" )
 ```
 
 Add extensions if needed (e.g. `.mxf`).
