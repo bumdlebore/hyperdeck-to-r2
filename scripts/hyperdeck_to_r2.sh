@@ -15,14 +15,22 @@ fi
 : "${LOG:=/var/log/hyperdeck-to-r2/rclone.log}"
 mkdir -p "$(dirname "$LOG")"
 
+# Only run and transfer on Sunday (files recorded on Sunday)
+[[ $(date +%u) -eq 7 ]] || { echo "Today is not Sunday, skipping." >> "$LOG"; exit 0; }
+
 # rclone FTP backend needs an obscured pass value even if HyperDeck ignores it
 FTP_PASS_OBS="$("$RCLONE_BIN" obscure "${FTP_DUMMY_PASS:-dummy}")"
 
 # Order matters: last matching rule wins. Exclude all, then include mov/mp4.
 FILTER_ARGS=( --filter "- *" --filter "+ *.mov" --filter "+ *.mp4" )
 
+# Only transfer files recorded today (Sunday) - modified since midnight
+SECONDS_SINCE_MIDNIGHT=$(($(date +%s) - $(date -v0H -v0M -v0S +%s)))
+MAX_AGE="${SECONDS_SINCE_MIDNIGHT}s"
+
 COMMON_ARGS=(
   --ignore-existing
+  --max-age "$MAX_AGE"
   --transfers 1
   --checkers 2
   --retries 10

@@ -85,7 +85,7 @@ After this, every `git pull` will copy the script, env template, and plist to th
 
 ## Test Manually
 
-Run once to confirm everything works:
+Run once to confirm everything works (on a Sunday; on other days the script exits without transferring):
 
 ```bash
 /usr/local/bin/hyperdeck_to_r2.sh
@@ -103,10 +103,11 @@ tail -n 100 /var/log/hyperdeck-to-r2/rclone.log
 
 -   Connects to HyperDeck via FTP
 -   Checks both `sd1` and `sd2`
+-   Only transfers files recorded on Sunday (by modification time)
 -   Uploads only new `.mov` and `.mp4` files
 -   Uses `--ignore-existing` to prevent re-uploads
 -   Never deletes anything from R2
--   Runs every 10 minutes via launchd
+-   Runs every 5 minutes on Sundays between 10am and 2pm via launchd
 
 ------------------------------------------------------------------------
 
